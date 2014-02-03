@@ -101,7 +101,7 @@ function ding_wagnerguide_admin() {
     '#description' => t("If set to true, will print HTML comment after WagnerGUIDE link (or where link should have been printed) with the content of 'holding' from Alma.<br /><br />
       Beware that it is printed by javascript, so it cannot be seen in the page source. Use the likes of Firebug or \"View selection source\" et al.<br /><br />
       Can be used to figure out what to put in the above fields."),
-    '#required' => TRUE,
+    '#required' => FALSE,
   );
 
   return system_settings_form($form);
