@@ -137,9 +137,9 @@ function ding_wagnerguide_menu() {
 
   $items = array();
 
-  $items['admin/settings/ding/wagnerguide'] = array(
+  $items['admin/config/ding/wagnerguide'] = array(
     'title' => 'WagnerGUIDE module settings',
-    'description' => '',
+    'description' => 'Settings for WagnerGUIDE integration',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_wagnerguide_admin'),
     'access arguments' => array('access administration pages'),
