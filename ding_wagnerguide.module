@@ -10,7 +10,7 @@
  * Implements hook_init().
  */
 function ding_wagnerguide_init() {
-  drupal_add_js(drupal_get_path('module', 'ding_wagnerguide') . '/js/ding_wagnerguide.js', 'module', 'footer', TRUE);
+  drupal_add_js(drupal_get_path('module', 'ding_wagnerguide') . '/js/ding_wagnerguide.js', array('type'=>'file', 'scope'=>'footer'));
   drupal_add_css(drupal_get_path('module', 'ding_wagnerguide') . '/css/ding_wagnerguide.css');
   drupal_add_js(array(
     'ding_wagnerguide' => array(
@@ -194,7 +194,7 @@ function ding_wagnerguide_get_wagner_links($ting_item) {
       }
     }
   }
-  drupal_set_header('Content-Type: application/json; charset=utf-8');
+  drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
   echo json_encode($result);
   return;
 }
