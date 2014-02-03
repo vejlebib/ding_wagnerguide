@@ -46,11 +46,11 @@ function ding_wagnerguide_admin() {
       "bus":{},
       "dagpleje":{},
       "depot":{
-        "popup,Some text or HTML to popup"
+        "popup":"Some text or HTML to popup"
       },
       "kontor":{},
       "magasin":{
-        "popup,Some text or HTML to popup"
+        "popup":"Some text or HTML to popup"
       },
       "magasin1":{},
       "magasin2":{},
