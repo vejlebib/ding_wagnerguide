@@ -1,7 +1,8 @@
 /**
  * @file
- *
- * Stuff a WagnerGUIDe link in holdings from ALMA.
+ * Injects WagnerGUIDE links.
+ * 
+ * Inject a WagnerGUIDE link on each line with holding information from ALMA on the ting object being viewed.
  */
 
 // Container object for all our availability stuff.

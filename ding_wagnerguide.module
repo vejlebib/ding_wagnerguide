@@ -1,20 +1,26 @@
 <?php
+/**
+ * @file
+ * Module integrating Wagnerguide with Ding!
+ *
+ * Holding information is enriched with links directly to a Wagnerguide map (if a match can be made).
+ */
 
 /**
- * Implementation of hook_init().
+ * Implements hook_init().
  */
 function ding_wagnerguide_init() {
-  drupal_add_js(drupal_get_path('module', 'ding_wagnerguide') . '/ding_wagnerguide.js', 'module', 'footer', TRUE);
-  drupal_add_css(drupal_get_path('module', 'ding_wagnerguide') .'/ding_wagnerguide.css');
+  drupal_add_js(drupal_get_path('module', 'ding_wagnerguide') . '/js/ding_wagnerguide.js', 'module', 'footer', TRUE);
+  drupal_add_css(drupal_get_path('module', 'ding_wagnerguide') . '/css/ding_wagnerguide.css');
   drupal_add_js(array(
-	                    'ding_wagnerguide' => array(
-                                                  'modulePath' => drupal_get_path('module', 'ding_wagnerguide'),
-	                                               ), 
-											), 'setting');
+    'ding_wagnerguide' => array(
+      'modulePath' => drupal_get_path('module', 'ding_wagnerguide/js'),
+    ),
+  ), 'setting');
 }
 
 /**
- * Implementation of hook_perm().
+ * Implements hook_perm().
  *
  * @return array
  */
@@ -60,11 +66,9 @@ function ding_wagnerguide_admin() {
     '#title' => t('Base URL for branches'),
     '#default_value' => variable_get('ding_wagnerguide_linkbase', $link_base),
     '#rows' => 7,
-    '#description' => t("
-      Contains an array in <a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/JSON\">JSON</a> format.<br /><br />
+    '#description' => t("Contains an array in <a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/JSON\">JSON</a> format.<br /><br />
       Make one entry pr. branch, and provide the WagnerGUIDE base URL for each.<br /><br />
-      The key (first part) must be the Alma representation 'branch_id', typically three letters.
-    "),
+      The key (first part) must be the Alma representation 'branch_id', typically three letters."),
     '#required' => TRUE,
   );
 
@@ -77,8 +81,7 @@ function ding_wagnerguide_admin() {
       '#title' => t('Translation array for branch "' . $branch . '"'),
       '#default_value' => variable_get($field, $transformation_array),
       '#rows' => 15,
-      '#description' => t("
-        This array in <a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/JSON\">JSON</a> format may contain entries for tranformation of all, some or none of the Alma representaions 'department_id, 'location_id' and 'sublocation_id'.<br /><br />
+      '#description' => t("This array in <a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/JSON\">JSON</a> format may contain entries for tranformation of all, some or none of the Alma representaions 'department_id, 'location_id' and 'sublocation_id'.<br /><br />
         No link, use:<br />
         <pre>\"location_id\":{\n\t\"depot\":{}\n}</pre><br />
         Rewriting label, use:<br />
@@ -86,9 +89,7 @@ function ding_wagnerguide_admin() {
         For popup, use:<br />
         <pre>\"location_id\":{\n\t\"depot\":{\n\"popup\":\"Popup text\"\n}\n}</pre>
         Ignore rule for certain material types, use:<br />
-        <pre>\"location_id\":{\n\t\"depot\":{\n\"ignore_mtype\":\"cd,book\",\n\"popup\":\"Popup text\"\n}\n}</pre>
-        
-      "),
+        <pre>\"location_id\":{\n\t\"depot\":{\n\"ignore_mtype\":\"cd,book\",\n\"popup\":\"Popup text\"\n}\n}</pre>"),
       '#required' => TRUE,
     );
   }
@@ -97,11 +98,9 @@ function ding_wagnerguide_admin() {
     '#type' => 'checkbox',
     '#title' => t('Debug mode'),
     '#default_value' => variable_get('ding_wagnerguide_debug', FALSE),
-    '#description' => t("
-      If set to true, will print HTML comment after WagnerGUIDE link (or where link should have been printed) with the content of 'holding' from Alma.<br /><br />
+    '#description' => t("If set to true, will print HTML comment after WagnerGUIDE link (or where link should have been printed) with the content of 'holding' from Alma.<br /><br />
       Beware that it is printed by javascript, so it cannot be seen in the page source. Use the likes of Firebug or \"View selection source\" et al.<br /><br />
-      Can be used to figure out what to put in the above fields.
-    "),
+      Can be used to figure out what to put in the above fields."),
     '#required' => TRUE,
   );
 
@@ -139,8 +138,8 @@ function ding_wagnerguide_menu() {
   $items = array();
 
   $items['admin/settings/ding/wagnerguide'] = array(
-    'title' => t('WagnerGUIDE module settings'),
-    'description' => t(''),
+    'title' => 'WagnerGUIDE module settings',
+    'description' => '',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_wagnerguide_admin'),
     'access arguments' => array('access administration pages'),
@@ -238,26 +237,26 @@ function ding_wagnerguide_get_holding($alma_holding, $mtype) {
 
         if ($alma_holding_part == 'shelf_mark') {
           /* Shelf_mark is a special case: Use only first letter.
-					 * Two primary cases exist: Fiction literature and subject literature
-					 * Fiction is identified by the string starting with letters, possibly with a leading ">"-sign (this symbol must be filtered out).
-					 * Subject literature has shelf_mark starting with a DK5-no, possibly followed by a label. We need only the number.
-					 * The regex below matches one and only one of the above 2 cases
-					 */
-					if (preg_match("/[a-zA-ZæøåÆØÅ]|^[0-9]+\.?[0-9]+/u", $alma_holding['shelf_mark'], $match)) {
+           * Two primary cases exist: Fiction literature and subject literature
+           * Fiction is identified by the string starting with letters, possibly with a leading ">"-sign (this symbol must be filtered out).
+           * Subject literature has shelf_mark starting with a DK5-no, possibly followed by a label. We need only the number.
+           * The regex below matches one and only one of the above 2 cases
+           */
+          if (preg_match("/[a-zA-ZæøåÆØÅ]|^[0-9]+\.?[0-9]+/u", $alma_holding['shelf_mark'], $match)) {
             $query_string_parts[] = $wagner_link_part . '=' . drupal_strtoupper($match[0]);
           }
         }
         else {
           // All others are translated using the transformation array.
           $wagner_link_part_array = $transformation_array[$alma_holding_part][$alma_holding[$alma_holding_part]];
-          
-          // only transform if transformation array contains something. If material type should be ignored, just continue as if transformation array was empty 
-          if (isset($wagner_link_part_array) && (strpos($wagner_link_part_array['ignore_mtype'], $mtype) === false)) {
-            
-            // If a new_label value exists in the transformation array, transform. 
+
+          // only transform if transformation array contains something. If material type should be ignored, just continue as if transformation array was empty
+          if (isset($wagner_link_part_array) && (strpos($wagner_link_part_array['ignore_mtype'], $mtype) === FALSE)) {
+
+            // If a new_label value exists in the transformation array, transform.
             $wagner_link_part_value = $wagner_link_part_array['new_label'];
-            
-            if (!$wagner_link_part_array) {    
+
+            if (!$wagner_link_part_array) {
               // If a value is set to false in $transformation_array, no link will be given.
               $query_string_parts = array();
               break;
@@ -268,7 +267,7 @@ function ding_wagnerguide_get_holding($alma_holding, $mtype) {
               $holding['popup'] = $wagner_link_part_array['popup'];
               break;
             }
-            
+
           }
           else {
             // Or just pass the value if no entry in the transformation array, but replace æøå.
