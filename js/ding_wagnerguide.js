@@ -24,7 +24,7 @@ Drupal.dingWagnerguide = {};
           ajax_path = Drupal.settings.basePath;
           $.getJSON(ajax_path + 'ding/wagnerguide/item/' + Drupal.dingWagnerguide.itemId, {}, function(data) {
             Drupal.dingWagnerguide.data = data;
-            alert('lines: '+$('.availability-holdings-table tbody tr').length);
+
             // ...wait for the ting-availability module to write the holdings in the container.
             var waitForContentTimer = window.setInterval(function() {
               if ($('.availability-holdings-table tbody tr').length) {
