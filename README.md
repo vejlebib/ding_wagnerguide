@@ -1,9 +1,9 @@
 #Module for integrating WagnerGUIDE with a ding site
 
-It inserts some JavaScript that looks for the `ting-availability`-container,
-then finds the ALMA id / item number XXX from `<div id="ting-item-XXX">`.
+It inserts some JavaScript that looks for the `holdings`-container,
+then finds the ALMA id / item number XXX from `<div id="holdings-YYY" class="holdings holdings-XXX">`.
 
-It then waits for `ting-availability` to be populated with the holding lines,
+It then waits for `availability-holdings-table` to be populated with the holding lines,
 and prepends the lines with a link to WagnerGUIDE.
 
 The module is compatible with DDELibra systems only, and communicates through ALMA.
@@ -16,7 +16,7 @@ Holding data for materials contains information on:
 
 * branches (typically represent separate locations where patrons can borrow materials. Ex. "Vej" signifying "Vejle Library")
 * departments (logical divisions of a branch, typically rooms within the building. Ex. "Mus" signifying the Music department)
-* locations (separate placement categories of materials. Ex. "depot", "magasin", "udlån" )
+* locations (separate placement categories of materials. Ex. "depot", "magasin", "udlï¿½n" )
 * sublocations (smaller, specific placement categories, typically used for genres or special types of materials. Ex. "krimi" (genre), "DVD" (material), "large" (especially large materials) )
 
 ###Base URL for branches (required):
@@ -81,25 +81,25 @@ The following is a full example of a Translation array for a branch:
       "department_id":{},
       "location_id":{
         "bus":{
-          "popup":"Materialet er i BUSSEN - og kan findes frem til dig næste gang bussen er hjemme. Spørg personalet"
+          "popup":"Materialet er i BUSSEN - og kan findes frem til dig nï¿½ste gang bussen er hjemme. Spï¿½rg personalet"
         },
         "dagpleje":{},
         "depot":{
-          "popup":"Materialet er i DEPOT - du kan få personalet på Vejle Bibliotek til at hente det til dig"
+          "popup":"Materialet er i DEPOT - du kan fï¿½ personalet pï¿½ Vejle Bibliotek til at hente det til dig"
         },
         "kontor":{},
         "magasin":{
-          "popup":"Materialet er i MAGASIN - du kan få personalet på Vejle Bibliotek til at hente det til dig"
+          "popup":"Materialet er i MAGASIN - du kan fï¿½ personalet pï¿½ Vejle Bibliotek til at hente det til dig"
         },
         "magasin1":{
           "ignore_mtype":"cd",
-          "popup":"Materialet er i MAGASIN - du kan få personalet på Vejle Bibliotek til at hente det til dig"
+          "popup":"Materialet er i MAGASIN - du kan fï¿½ personalet pï¿½ Vejle Bibliotek til at hente det til dig"
         },
         "magasin2":{
-          "popup":"Materialet er i MAGASIN - du kan få personalet på Vejle Bibliotek til at hente det til dig"
+          "popup":"Materialet er i MAGASIN - du kan fï¿½ personalet pï¿½ Vejle Bibliotek til at hente det til dig"
         },
         "magasin3":{
-          "popup":"Materialet er i MAGASIN - du kan få personalet på Vejle Bibliotek til at hente det til dig"
+          "popup":"Materialet er i MAGASIN - du kan fï¿½ personalet pï¿½ Vejle Bibliotek til at hente det til dig"
         }
       },
       "sublocation_id":{}
