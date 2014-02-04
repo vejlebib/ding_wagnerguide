@@ -1,34 +1,9 @@
-div.ting-availability ul.library-list {
-  padding-left: 95px;
-	width: 355px;
-  }
-	
-div.ting-availability ul.library-list li {
-  height: auto;
-  line-height: 30px;
-	position: relative;
-	}
-
-.ting-availability .library-list a.wagnerguide {
-  background: url("./images/button-wagner-bg.png") repeat scroll 0 0 transparent;
-  color: white;
-  display: block;
-  position: absolute;
-	left:-95px;
-  font-size: 1.2em;
+.availability-holdings-table tr td a.wagnerguide {
+  background: url("../images/button-wagner-bg.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+  color: #FFFFFF;
+  display: inline-block;
+  font-size: 110%;
   height: 26px;
-  padding-left: 0.8em;
-  width: 90px;
-  /*
-	display: inline;
-  float: left;
-  margin-right: 0.5em;
-  */
-	}
-
-/*	
-.ting-availability .library-list a.wagnerguide span {
-  position: absolute;
-	left:-9000px;
-  }
-*/
+  padding-left: 0.5em;
+  width: 85px;
+}
