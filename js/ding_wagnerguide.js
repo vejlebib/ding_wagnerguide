@@ -48,7 +48,10 @@ Drupal.dingWagnerguide.populate = function() {
   //   Hope that the lines are in the same order as our links as we have no id on the individual lines.
   (function($){
 
-    $('.availability-holdings-table tbody tr').each(function(index){
+    // Get the holding elements to populate with links, making sure they are only inserted once
+    var wglinks = $('.availability-holdings-table tbody tr').once('wagnerguide-links');
+
+    wglinks.each(function(index){
       if (wagnerLinks[index]) {
 
         if (wagnerLinks[index].popup) {
