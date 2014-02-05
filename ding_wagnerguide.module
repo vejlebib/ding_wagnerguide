@@ -195,6 +195,10 @@ function ding_wagnerguide_get_wagner_links($ting_item) {
         if ($alma_holding['total_count'] > $alma_holding['checked_out_count']) {
           $result[$alma_id][] = ding_wagnerguide_get_holding($alma_holding, $mtype);
         }
+        // otherwise we place a "no link"-mark simply to preserve the correct placement of wagnerguide links
+        else {
+          $result[$alma_id][] = array('nolink' => 'nolink');
+        }
       }
     }
   }
