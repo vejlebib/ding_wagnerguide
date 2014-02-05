@@ -121,8 +121,11 @@ function ding_wagnerguide_admin_validate($form, &$form_state) {
     foreach ($branches as $branch => $link) {
       $field = 'ding_wagnerguide_transformation_array_' . $branch;
       $transformation_array = $form_state['values'][$field];
-      if (!is_array(json_decode($transformation_array, TRUE))) {
-        form_set_error($field, t('Malformed JSON: Does not transform to array.'));
+
+      if (!empty($transformation_array)) {
+        if (!is_array(json_decode($transformation_array, TRUE))) {
+          form_set_error($field, t('Malformed JSON: Does not transform to array.'));
+        }
       }
     }
   }
