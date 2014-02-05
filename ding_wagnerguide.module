@@ -251,13 +251,20 @@ function ding_wagnerguide_get_holding($alma_holding, $mtype) {
         }
         else {
           // All others are translated using the transformation array.
-          $wagner_link_part_array = $transformation_array[$alma_holding_part][$alma_holding[$alma_holding_part]];
+          if ($transformation_array[$alma_holding_part]) {
+            $wagner_link_part_array = $transformation_array[$alma_holding_part][$alma_holding[$alma_holding_part]];
+          }
 
           // only transform if transformation array contains something. If material type should be ignored, just continue as if transformation array was empty
           if (isset($wagner_link_part_array) && (strpos($wagner_link_part_array['ignore_mtype'], $mtype) === FALSE)) {
 
             // If a new_label value exists in the transformation array, transform.
-            $wagner_link_part_value = $wagner_link_part_array['new_label'];
+            if (isset($wagner_link_part_array['new_label'])) {
+              $wagner_link_part_value = $wagner_link_part_array['new_label'];
+            }
+            else {
+              $wagner_link_part_value = $alma_holding[$alma_holding_part];
+            }
 
             if (!$wagner_link_part_array) {
               // If a value is set to false in $transformation_array, no link will be given.
