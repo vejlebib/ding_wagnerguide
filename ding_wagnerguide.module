@@ -199,9 +199,18 @@ function ding_wagnerguide_get_wagner_links($ting_item) {
         $record_holdings_reshaped = array();
         foreach ($record['holdings'] as $year_parts) {
           foreach ($year_parts as $issue_parts) {
-            foreach ($issue_parts as $issue_holdings) {
+
+            foreach ($issue_parts as $issue_holdings_key => $issue_holdings) {
+
+              // If this is not issue holdings, insert $issue_parts and do not loop further down
+              if (!is_numeric($issue_holdings_key)) {
+                $record_holdings_reshaped[] = $issue_parts;
+                break;
+              }
+
               $record_holdings_reshaped[] = $issue_holdings;
             }
+
           }
         }
 
