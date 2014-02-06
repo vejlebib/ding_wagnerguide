@@ -27,7 +27,7 @@ Drupal.dingWagnerguide = {};
 
             // ...wait for the ting-availability module to write the holdings in the container.
             var waitForContentTimer = window.setInterval(function() {
-              if ($('.availability-holdings-table tbody tr').length) {
+              if ($('.availability-holdings-table tbody tr').length || $('.periodical-holdings tbody tr').length) {
                 clearInterval(waitForContentTimer);
                 Drupal.dingWagnerguide.populate();
               }
@@ -43,13 +43,19 @@ Drupal.dingWagnerguide = {};
 
 Drupal.dingWagnerguide.populate = function() {
   var wagnerLinks = Drupal.dingWagnerguide.data[Drupal.dingWagnerguide.itemId];
+  var mtype = Drupal.dingWagnerguide.data['mtype'];
 
   // Run through the printed holdings and insert links/popups.
   //   Hope that the lines are in the same order as our links as we have no id on the individual lines.
   (function($){
 
     // Get the holding elements to populate with links, making sure they are only inserted once
-    var wglinks = $('.availability-holdings-table tbody tr').once('wagnerguide-links');
+    if (mtype == 'periodical') {
+      var wglinks = $('.periodical-holdings tbody tr').once('wagnerguide-links');
+    }
+    else {
+      var wglinks = $('.availability-holdings-table tbody tr').once('wagnerguide-links');
+    }
 
     wglinks.each(function(index){
       if (wagnerLinks[index]) {

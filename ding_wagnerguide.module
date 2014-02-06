@@ -190,8 +190,27 @@ function ding_wagnerguide_get_wagner_links($ting_item) {
     foreach ($details['records'] as $alma_id => $record) {
       $result[$alma_id] = array();
       $mtype = $record['media_class'];
+
+      // Add materialtype to final output
+      $result['mtype'] = $mtype;
+
+      // if material type if periodical, we need to re-shape the $record['holdings'] array before we go on
+      if ($mtype == 'periodical') {
+        $record_holdings_reshaped = array();
+        foreach ($record['holdings'] as $year_parts) {
+          foreach ($year_parts as $issue_parts) {
+            foreach ($issue_parts as $issue_holdings) {
+              $record_holdings_reshaped[] = $issue_holdings;
+            }
+          }
+        }
+
+        $record['holdings'] = $record_holdings_reshaped;
+      }
+
       foreach ($record['holdings'] as $alma_holding) {
-        // "alma_availability_details()" only return holdings which are not loaned out. So do we:
+
+        // "alma_availability_details()" only return holdings which are available for loan. So do we:
         if ($alma_holding['total_count'] > $alma_holding['checked_out_count']) {
           $result[$alma_id][] = ding_wagnerguide_get_holding($alma_holding, $mtype);
         }
