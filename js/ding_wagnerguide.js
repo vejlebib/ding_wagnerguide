@@ -11,14 +11,15 @@ Drupal.dingWagnerguide = {};
 (function($){
   Drupal.behaviors.dingWagnerguide = {
     attach: function(context, settings) {
-      // Check if there is a container for ting-availability.
-      if ($(".pane-ting-object .holdings").length > 0) {
+      // Check if there is a container for holdings.
+      if ($(".pane-ting-object .group-holdings-available").length || $(".pane-ting-object .group-periodical-issues").length) {
 
-        // Find item ID.
-        if (itemContainer = $('div.holdings').filter(function () {
-            return $(this).attr('class').match(/holdings-\d+/);
-            }).get(0)) {
-          Drupal.dingWagnerguide.itemId = $(itemContainer).attr('class').match(/holdings-(\d+)/)[1];
+        // Find item ID from URL
+        pathname = decodeURIComponent(window.location.pathname);
+        itemIdFromUrl = pathname.split(':')[1];
+
+        if (itemIdFromUrl) {
+          Drupal.dingWagnerguide.itemId = itemIdFromUrl;
 
           // Get WagnerGUIDE links.
           ajax_path = Drupal.settings.basePath;
